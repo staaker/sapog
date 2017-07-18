@@ -36,6 +36,8 @@ HW_VERSION_MAJOR = 1
 FW_VERSION_MAJOR = 2
 FW_VERSION_MINOR = 2
 
+export PATH := ./toolchain/gcc-arm-none-eabi-6-2017-q1-update/bin:$(PATH)
+
 export SAPOG_BASE := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 export SAPOG_SRC_DIR = $(abspath $(SAPOG_BASE)/src)
 

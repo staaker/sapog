@@ -4,3 +4,6 @@
 [submodule "firmware/libuavcan"]
 	path = firmware/libuavcan
 	url = https://github.com/UAVCAN/libuavcan
+[submodule "firmware/toolchain"]
+	path = firmware/toolchain
+	url = git@github.com:staaker/toolchain.git
