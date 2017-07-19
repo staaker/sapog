@@ -156,3 +156,11 @@ upload: build/compound.elf
 	./zubax_chibios/tools/blackmagic_flash.sh
 
 include zubax_chibios/rules_stm32f105_107.mk
+
+upload-jlink:
+	JLinkExe -device STM32F105RC -if SWD -speed 4000 -CommanderScript jlink.script
+
+debug-jlink:
+	daemon -- JLinkGDBServer -device STM32F105RC -if swd -speed 4000 -singlerun
+	arm-none-eabi-gdb ./build/io.px4.sapog.elf -ex 'target remote localhost:2331' -ex 'monitor reset' -ex 'load'
+
