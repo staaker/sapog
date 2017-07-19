@@ -44,8 +44,7 @@
 #include <console.hpp>
 #include <temperature_sensor.hpp>
 #include <motor/motor.h>
-#include <uavcan_node/uavcan_node.hpp>
-
+#include <cstring>
 
 namespace
 {
@@ -69,12 +68,6 @@ os::watchdog::Timer init()
 
 	// Motor control (must be initialized earlier than communicaton interfaces)
 	res = motor_init();
-	if (res < 0) {
-		board::die(res);
-	}
-
-	// UAVCAN node
-	res = uavcan_node::init();
 	if (res < 0) {
 		board::die(res);
 	}
@@ -179,8 +172,6 @@ int main()
 
 	motor_confirm_initialization();
 
-	uavcan_node::set_node_status_ok();
-
 	/*
 	 * Here we run some high-level self diagnostics, indicating the system health via UAVCAN and LED.
 	 * TODO: Refactor.
@@ -192,11 +183,11 @@ int main()
 		wdt.reset();
 
 		if (motor_is_blocked() || !temperature_sensor::is_ok()) {
+            // Something is wrong
 			led_ctl.set(board::LEDColor::YELLOW);
-			uavcan_node::set_node_status_critical();
 		} else {
+            // Everything is good
 			led_ctl.set(board::LEDColor::DARK_GREEN);
-			uavcan_node::set_node_status_ok();
 		}
 
 		bg_config_manager.poll();
