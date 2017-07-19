@@ -42,7 +42,6 @@
 #include <board/board.hpp>
 #include <board/led.hpp>
 #include <console.hpp>
-#include <pwm_input.hpp>
 #include <temperature_sensor.hpp>
 #include <motor/motor.h>
 #include <uavcan_node/uavcan_node.hpp>
@@ -73,9 +72,6 @@ os::watchdog::Timer init()
 	if (res < 0) {
 		board::die(res);
 	}
-
-	// PWM input
-	pwm_input_init();
 
 	// UAVCAN node
 	res = uavcan_node::init();
